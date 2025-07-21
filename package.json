@@ -1,0 +1,39 @@
+{
+  "name": "reactive-lint",
+  "version": "1.0.0",
+  "description": "A linter for Angular/RxJS reactivity patterns",
+  "main": "src/index.ts",
+  "bin": {
+    "reactivelint": "./bin/reactivelint.js"
+  },
+"scripts": {
+  "build": "tsc",
+  "lint": "node bin/reactivelint.js",
+  "lint-angular": "npm run build && node bin/reactivelint.js examples/angular-bad-code.ts",
+  "test": "jest"
+},
+  "keywords": [
+    "angular",
+    "rxjs",
+    "signals",
+    "linting"
+  ],
+  "author": "Your Name <your@email.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/angular": "^1.8.9",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.15",
+    "glob": "^11.0.3",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
+    "ts-morph": "^26.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@angular/core": "^20.1.2",
+    "rxjs": "^7.8.2",
+    "ts-node": "^10.9.2"
+  }
+}
