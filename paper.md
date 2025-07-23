@@ -64,4 +64,3 @@ It supports reproducible software engineering by codifying expert knowledge into
 ## References
 1. Angular Documentation – Signals Guide. https://angular.io/guide/signals 
 2. RxJS: Reactive Extensions for JavaScript. https://rxjs.dev 
-3. Prentice, A. et al. (2023). *The Journal of Open Source Software*, 8(89), 5467. https://doi.org/10.21105/joss.05467 
