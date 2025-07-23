@@ -13,3 +13,12 @@ examples/*.js
 # IDE files
 .vscode/
 .idea/
+
+# ...EXCEPT these specific ones
+!bin/reactivelint.js
+!benchmark.js
+!jest.config.js
+!tsconfig.json
+!CONTRIBUTING.md
+!README.md
+!LICENSE
