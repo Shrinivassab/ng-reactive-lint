@@ -1,0 +1,19 @@
+# .github/workflows/test-paper.yml
+name: Verify JOSS Paper
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check paper metadata
+        uses: openjournals/joss-paper-acceptance-action@v1
+        with:
+          paper-path: paper.md
