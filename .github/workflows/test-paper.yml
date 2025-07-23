@@ -1,62 +1,87 @@
-name: JOSS Paper Validation
+name: CI & Benchmark
 
 on:
   push:
-    branches: [main, development]
+    branches: [ main, development ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Check Paper Structure
-      run: |
-        # Basic JOSS paper requirements check
-        echo "Checking paper.md..."
-        [ -f paper.md ] || exit 1
-        grep -q "title:" paper.md || exit 1
-        grep -q "authors:" paper.md || exit 1
-        grep -q "affiliations:" paper.md || exit 1
-        
-    - name: Check References
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require('fs');
-          const paper = fs.readFileSync('paper.md', 'utf8');
-          if (!paper.includes('## References')) {
-            core.setFailed('References section missing');
-          }
-
   test:
-    needs: validate
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - run: npm install
-    - run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
 
   benchmark:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - run: npm install
-    - run: npm run build
-    - run: node benchmark.js examples/angular-bad-code.ts > bad-results.txt
-    - run: node benchmark.js examples/angular-good-code.ts > good-results.txt
-    - uses: actions/upload-artifact@v3
-      with:
-        name: benchmark-results
-        path: |
-          bad-results.txt
-          good-results.txt
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and run benchmarks
+        run: |
+          npm run build
+          node benchmark.js examples/angular-bad-code.ts > bad-results.txt
+          node benchmark.js examples/angular-good-code.ts > good-results.txt
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4   # ✅ Updated to v4
+        with:
+          name: benchmark-results
+          path: |
+            bad-results.txt
+            good-results.txt
+
+  verify-results:
+    needs: benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download benchmark results
+        uses: actions/download-artifact@v4   # ✅ Updated to v4
+        with:
+          name: benchmark-results
+          path: ./
+
+      - name: Display results
+        run: |
+          echo "📄 BAD CODE RESULTS:"
+          cat bad-results.txt
+          echo ""
+          echo "📄 GOOD CODE RESULTS:"
+          cat good-results.txt
+
+      - name: Validate output (basic check)
+        run: |
+          if ! grep -q "Benchmarking" bad-results.txt; then
+            echo "::error::No valid output in bad-results.txt"
+            exit 1
+          fi
+          if ! grep -q "Benchmarking" good-results.txt; then
+            echo "::error::No valid output in good-results.txt"
+            exit 1
+          fi
