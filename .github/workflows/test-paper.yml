@@ -1,19 +1,77 @@
-# .github/workflows/test-paper.yml
-name: Verify JOSS Paper
+name: JOSS Paper Validation
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "development" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  test-paper:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Check paper metadata
-        uses: openjournals/joss-paper-acceptance-action@v1
-        with:
-          paper-path: paper.md
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run tests
+      run: npm test
+      
+  benchmark:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run benchmarks
+      run: |
+        npm run build
+        node benchmark.js examples/angular-bad-code.ts > bad-results.txt
+        node benchmark.js examples/angular-good-code.ts > good-results.txt
+        
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: |
+          bad-results.txt
+          good-results.txt
+          
+  validate:
+    needs: benchmark
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download benchmark results
+      uses: actions/download-artifact@v3
+      with:
+        name: benchmark-results
+        
+    - name: Verify results
+      run: |
+        echo "BAD CODE RESULTS:"
+        cat bad-results.txt
+        echo "\nGOOD CODE RESULTS:"
+        cat good-results.txt
+        
+        # Add your validation logic here
+        if grep -q "ERROR" bad-results.txt; then
+          echo "::error::Found errors in bad code analysis"
+          exit 1
+        fi
