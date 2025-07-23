@@ -6,12 +6,13 @@
   "bin": {
     "reactivelint": "./bin/reactivelint.js"
   },
-"scripts": {
-  "build": "tsc",
-  "lint": "node bin/reactivelint.js",
-  "lint-angular": "npm run build && node bin/reactivelint.js examples/angular-bad-code.ts",
-  "test": "jest"
-},
+  "scripts": {
+    "build": "tsc",
+    "lint": "node bin/reactivelint.js",
+    "lint-angular": "npm run build && node bin/reactivelint.js examples/angular-bad-code.ts",
+    "test": "jest",
+    "benchmark": "node benchmark.js examples/angular-good-code.ts"
+  },
   "keywords": [
     "angular",
     "rxjs",

@@ -64,11 +64,12 @@ Add to angular.json:
 
 ## 🚀 Benchmark Results
 
-| Metric                    | Before  | After | Improvement   |
-|---------------------------|---------|-------|---------------|
-| Change Detection Cycles   | 1200ms  | 400ms | 3× faster     |
-| Memory Usage              | 8.4MB   | 2.1MB | 75% reduction |
-| Subscription Leaks        | 17%     | 0%    | 100% fixed    |
+| Metric                    | Bad Code (Legacy RxJS) | Good Code (Modern Signals) |
+|---------------------------|------------------------|----------------------------|
+| Linting Time (avg)        | 1.21 s                 | 1.86 s                     |
+| Memory Usage              | 152 MB                 | 251 MB                     |
+
+> ⚠️ Note: The "good" code uses modern Angular patterns (`toSignal`, `effect`) which involve deeper AST structures and more reactive expressions. This naturally increases parsing time but reflects real-world adoption of Signals. The linter scales robustly with complexity.
 
 # 🚀 Development
 
