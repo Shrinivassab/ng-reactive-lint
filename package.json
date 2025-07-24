@@ -19,7 +19,7 @@
     "signals",
     "linting"
   ],
-  "author": "Your Name <your@email.com>",
+  "author": "Shrinivass Arunachalam Balasubramanian <shrinivassab@gmail.com>",
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
