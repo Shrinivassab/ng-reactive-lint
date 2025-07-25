@@ -11,7 +11,7 @@ const {
   checkAsyncPipes,
   suggestSignalUsage,
   checkUnusedObservables
-} = require('../dist/src');
+} = require('../dist');
 
 // Load config
 let config = {};
