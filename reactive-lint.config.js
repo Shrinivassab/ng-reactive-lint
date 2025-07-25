@@ -1,10 +1,9 @@
-// reactive-lint.config.js
 module.exports = {
   rules: {
     angular: {
       enabled: true,
-      strict: true, // Enforce takeUntilDestroyed()
-      onPush: true  // Check async pipe + OnPush
+      strict: true,
+      onPush: true
     },
     signals: true
   },
