@@ -1,6 +1,6 @@
 {
   "name": "reactive-lint",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A linter for Angular/RxJS reactivity patterns",
   "main": "dist/index.js",
   "files": [
