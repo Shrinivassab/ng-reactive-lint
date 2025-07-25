@@ -2,16 +2,22 @@
   "name": "reactive-lint",
   "version": "1.0.0",
   "description": "A linter for Angular/RxJS reactivity patterns",
-  "main": "src/index.ts",
+  "main": "dist/src/index.js",
+  "files": [
+    "dist",
+    "bin"
+  ],
   "bin": {
     "reactivelint": "./bin/reactivelint.js"
   },
   "scripts": {
     "build": "tsc",
-    "lint": "node bin/reactivelint.js",
+    "lint": "reactive-lint src/**/*.ts",
     "lint-angular": "npm run build && node bin/reactivelint.js examples/angular-bad-code.ts",
     "test": "jest",
-    "benchmark": "node benchmark.js examples/angular-good-code.ts"
+    "prepublish": "npm run build",
+    "benchmark": "node benchmark.js examples/angular-good-code.ts",
+    "reactive-lint": "reactivelint src"
   },
   "keywords": [
     "angular",
