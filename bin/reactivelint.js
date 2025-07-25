@@ -20,38 +20,77 @@ try {
   console.warn('No config file found, using defaults');
 }
 
-// Parse CLI args
-const pattern = process.argv[2] || 'examples/angular-bad-code.ts';
+// Handle --version
+const args = process.argv.slice(2);
+if (args.includes('--version') || args.includes('-v')) {
+  const pkg = require('../package.json');
+  console.log(pkg.version);
+  process.exit(0);
+}
 
-// Use glob.sync to get files synchronously
-const files = glob.sync(pattern, {
-  nodir: true,
-  absolute: true
-});
+// Handle --help
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(`
+reactive-lint - Angular-specific linter for RxJS and Signals
 
-if (files.length === 0) {
-  console.warn(`No files found for pattern: ${pattern}`);
+Usage:
+  reactive-lint [file|glob] [options]
+
+Options:
+  --version, -v    Print version
+  --help, -h       Show this help
+
+Examples:
+  reactive-lint src/app/**/*.ts
+  reactive-lint components/my-component.ts
+`);
+  process.exit(0);
+}
+
+// Get file pattern from CLI
+const pattern = args[0];
+if (!pattern) {
+  console.error('Usage: reactive-lint <file-or-glob>');
+  console.error('Use --help for more info');
   process.exit(1);
 }
 
-files.forEach(file => {
-  if (!fs.existsSync(file)) return;
-
-  console.log(`🔍 Linting ${path.relative(process.cwd(), file)}`);
-
-  // Run all rules
-  if (!config.rules || config.rules.implicitSubscriptions !== false) {
-    checkImplicitSubscriptions(file);
-  }
-  if (!config.rules || config.rules.asyncPipes !== false) {
-    checkAsyncPipes(file);
-  }
-  if (!config.rules || config.rules.signals !== false) {
-    suggestSignalUsage(file);
-  }
-  if (!config.rules || config.rules.unusedObservables !== false) {
-    checkUnusedObservables(file);
+// Use glob to resolve files
+glob(pattern, { nodir: true }, (err, files) => {
+  if (err) {
+    console.error('Error reading files:', err);
+    process.exit(1);
   }
 
-  console.log('---');
+  if (files.length === 0) {
+    console.warn(`No .ts files found for pattern: ${pattern}`);
+    process.exit(1);
+  }
+
+  files.forEach(file => {
+    const absolutePath = path.resolve(process.cwd(), file);
+    
+    if (!fs.existsSync(absolutePath)) {
+      console.warn(`File not found (skipping): ${file}`);
+      return;
+    }
+
+    console.log(`🔍 Linting ${path.relative(process.cwd(), absolutePath)}`);
+
+    // Run all rules
+    if (!config.rules || config.rules.implicitSubscriptions !== false) {
+      checkImplicitSubscriptions(absolutePath);
+    }
+    if (!config.rules || config.rules.asyncPipes !== false) {
+      checkAsyncPipes(absolutePath);
+    }
+    if (!config.rules || config.rules.signals !== false) {
+      suggestSignalUsage(absolutePath);
+    }
+    if (!config.rules || config.rules.unusedObservables !== false) {
+      checkUnusedObservables(absolutePath);
+    }
+
+    console.log('---');
+  });
 });
