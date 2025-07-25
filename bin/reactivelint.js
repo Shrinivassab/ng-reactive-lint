@@ -2,7 +2,8 @@
 
 const path = require('path');
 const fs = require('fs');
-const glob = require('glob');
+// Import the glob object, and then access its 'glob' method
+const { glob } = require('glob'); 
 
 // Import rules
 const { 
@@ -37,8 +38,8 @@ Usage:
   reactive-lint [file|glob] [options]
 
 Options:
-  --version, -v    Print version
-  --help, -h       Show this help
+  --version, -v     Print version
+  --help, -h        Show this help
 
 Examples:
   reactive-lint src/app/**/*.ts
@@ -56,6 +57,7 @@ if (!pattern) {
 }
 
 // Use glob to resolve files
+// Now calling the 'glob' function that was destructured from the module
 glob(pattern, { nodir: true }, (err, files) => {
   if (err) {
     console.error('Error reading files:', err);
