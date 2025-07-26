@@ -34,21 +34,21 @@ npm install -g ng-reactive-lint
 
 ### Basic Linting
 
-```
-ng-reactive-lint src/app/my-component.ts
+Use `npx` to run `reactive-lint` directly after installing it:
+
+```bash
+# Lint a specific file
+npx reactive-lint src/app/my-component.ts
 ```
 
-### Angular CLI Integration
-Add to angular.json:
-
+### Lint all TypeScript files in a directory (use quotes for glob patterns)
 ```
-"lint": {
-  "builder": "ng-reactive-lint:lint",
-  "options": {
-    "strict": true,
-    "fix": true
-  }
-}
+npx reactive-lint "src/app/**/*.ts"
+```
+
+### Lint your entire src directory
+```
+npx reactive-lint "src/**/*.ts"
 ```
 
 ## 🔧 Rules
