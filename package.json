@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "reactive-lint src/**/*.ts",
-    "lint-angular": "npm run build && node bin/reactivelint.js examples/angular-bad-code.ts",
+    "prelinttest": "npm run build", 
+    "linttest": "node bin/reactivelint.js examples/angular-bad-code.ts",
     "test": "jest",
     "prepublishOnly": "npm run build",
     "benchmark": "node benchmark.js examples/angular-good-code.ts"

@@ -1,24 +1,28 @@
-import { Component } from '@angular/core';
+// D:\Coding Examples\reactive-lint\examples\angular-bad-code.ts
+import { Component, OnInit } from '@angular/core'; // Import Angular core
 import { Observable, of, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Component({})
-export class BadComponent {
-  // Implicit subscription
+@Component({
+  // Include a template using async pipe to trigger the async pipe check
+  template: `<div>{{ data$ | async }}</div>`
+})
+export class BadComponent implements OnInit { // Implement OnInit
+  // Example 1: Implicit subscription without cleanup (should trigger checkImplicitSubscriptions)
   ngOnInit() {
-    interval(1000).subscribe(); // No cleanup
+    interval(1000).subscribe(console.log); // No takeUntil, not in ngOnDestroy
   }
 
-  // Async pipe without OnPush
+  // Example 2: Observable used with async pipe but no OnPush (should trigger checkAsyncPipes)
+  // Make sure ChangeDetectionStrategy.OnPush is NOT present in the @Component decorator above
   data$: Observable<string> = of('Hello');
 
-  // RxJS instead of signals
+  // Example 3: Simple RxJS chain suitable for Signal replacement (should trigger suggestSignalUsage)
   count$ = interval(1000).pipe(map(n => n * 2));
 
-  // Unused observable
+  // Example 4: Observable declared but never used (should trigger checkUnusedObservables)
   private unused$ = of(1, 2, 3);
 }
-
 
 // // examples/angular-bad-code.ts
 // import { Component, signal } from '@angular/core';
