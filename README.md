@@ -94,4 +94,4 @@ PRs welcome! See our [Contribution Guide](https://contributing.md/how-to-build-c
 
 ## 📄 License
 
-MIT © [Shrinivass Arunachalam Balasubramanian](https://github.com/Shrinivassab/ng-reactive-lint/blob/main/LICENSE )
+MIT © [Shrinivass Arunachalam Balasubramanian](https://github.com/Shrinivassab/ng-reactive-lint/blob/main/LICENSE.md)
