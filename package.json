@@ -1,8 +1,16 @@
 {
   "name": "reactive-lint",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A linter for Angular/RxJS reactivity patterns",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shrinivassab/ng-reactive-lint.git"
+  },
+  "homepage": "https://github.com/Shrinivassab/ng-reactive-lint#readme",
+  "bugs": {
+    "url": "https://github.com/Shrinivassab/ng-reactive-lint/issues"
+  },
   "files": [
     "dist",
     "bin"
