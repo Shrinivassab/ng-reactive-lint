@@ -1,6 +1,6 @@
 {
   "name": "reactive-lint",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "A linter for Angular/RxJS reactivity patterns",
   "main": "dist/index.js",
   "repository": {
@@ -16,7 +16,7 @@
     "bin"
   ],
   "bin": {
-    "reactive-lint": "./bin/reactivelint.js"
+    "reactive-lint": "bin/reactivelint.js"
   },
   "scripts": {
     "build": "tsc",
