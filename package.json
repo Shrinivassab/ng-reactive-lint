@@ -1,6 +1,6 @@
 {
   "name": "reactive-lint",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A linter for Angular/RxJS reactivity patterns",
   "main": "dist/index.js",
   "files": [
@@ -29,17 +29,17 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
+    "@angular/core": "^20.1.2",
     "@types/angular": "^1.8.9",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.15",
     "jest": "^30.0.4",
+    "rxjs": "^7.8.2",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@angular/core": "^20.1.2",
     "glob": "^11.0.3",
-    "rxjs": "^7.8.2",
     "ts-morph": "^26.0.0"
   }
 }
