@@ -1,6 +1,6 @@
 {
   "name": "reactive-lint",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A linter for Angular/RxJS reactivity patterns",
   "main": "dist/index.js",
   "repository": {
@@ -36,6 +36,9 @@
   "author": "Shrinivass Arunachalam Balasubramanian <shrinivassab@gmail.com>",
   "license": "MIT",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@angular/core": "^20.1.2",
     "@types/angular": "^1.8.9",
